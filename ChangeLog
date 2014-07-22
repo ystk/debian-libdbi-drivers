@@ -1,0 +1,164 @@
+2007-02-20 01:00  mhoenicka
+
+	* drivers/sqlite3/dbd_sqlite3.c (1.15): minor cleanup
+
+2007-02-20 00:57  mhoenicka
+
+	* acinclude.m4 (1.21): removed trailing slash from dbi_incdirs
+
+2007-02-15 01:50  mhoenicka
+
+	* drivers/: firebird/Makefile.am (1.5), freetds/Makefile.am (1.6),
+	  msql/Makefile.am (1.14), mysql/Makefile.am (1.17),
+	  oracle/Makefile.am (1.8), pgsql/Makefile.am (1.17),
+	  sqlite/Makefile.am (1.15), sqlite3/Makefile.am (1.8): added
+	  LIBADD_LIBDBI
+
+2007-02-15 01:49  mhoenicka
+
+	* configure.in (1.35): bumped up version number; added
+	  --enable-libdbi and --with-dbi-libdir options
+
+2006-11-29 22:11  mhoenicka
+
+	* drivers/mysql/dbd_mysql.c (1.90): dbd_get_encoding(): add support
+	  for MySQL 5.x
+
+2006-10-17 21:18  mhoenicka
+
+	* drivers/: sqlite/dbd_sqlite.c (1.35), sqlite3/dbd_sqlite3.c
+	  (1.14): allow semicolons in query strings, see bug # 1577810
+
+2006-10-17 21:01  mhoenicka
+
+	* drivers/sqlite3/dbd_sqlite3.c (1.13): error message handling now
+	  uses the sqlite3 API call instead of the sqlite v. 2 workaround,
+	  see bug #1577808
+
+2006-10-17 21:00  mhoenicka
+
+	* drivers/sqlite/dbd_sqlite.c (1.34): fixed segfault due to error
+	  message workaround, see bug #1577808
+
+2006-10-16 22:24  mhoenicka
+
+	* tests/test_dbi.c (1.37): added test_error_messages() function
+
+2006-09-21 21:44  mhoenicka
+
+	* drivers/pgsql/dbd_pgsql.c (1.51): Kjells patches for plugging a
+	  memory leak and for compatibility with older PostgreSQL versions
+
+2006-09-13 21:30  mhoenicka
+
+	* configure.in (1.34), drivers/freetds/Makefile.am (1.5),
+	  drivers/msql/Makefile.am (1.13), drivers/mysql/Makefile.am
+	  (1.16), drivers/oracle/Makefile.am (1.7),
+	  drivers/pgsql/Makefile.am (1.16), drivers/sqlite/Makefile.am
+	  (1.14), drivers/sqlite3/Makefile.am (1.7): dont build docs if
+	  --disable-docs was used
+
+2006-08-29 21:49  mhoenicka
+
+	* Makefile.am (1.8), configure.in (1.33): added --disable-docs
+	  switch
+
+2006-06-02 17:27  qu1j0t3
+
+	* tests/test_dbi.c (1.36): Add Ingres support to test_dbi.c
+
+2006-05-31 08:52  qu1j0t3
+
+	* AUTHORS (1.11), README (1.10), acinclude.m4 (1.20), configure.in
+	  (1.32), drivers/Makefile.am (1.8): Add Ingres 2006 (experimental)
+	  driver to libdbi-drivers build system. Driver has connect, query,
+	  fetch result functionality. Notable missing/incomplete features
+	  include handling of DATE, long blob, and UTF-16 column types;
+	  querying of system catalogs; querying of sequence values.
+
+2006-05-29 21:19  qu1j0t3
+
+	* drivers/pgsql/dbd_pgsql.c (1.50): use constant masks to isolate
+	  attributes; minor whitespace cleanup
+
+2006-05-29 21:16  qu1j0t3
+
+	* drivers/mysql/dbd_mysql.c (1.89): use constant masks to isolate
+	  attributes
+
+2006-05-16 08:27  mhoenicka
+
+	* drivers/mysql/dbd_mysql.c (1.88): dbd_get_encoding(): use
+	  get_binary() instead of get_string()
+
+2006-05-15 23:07  mhoenicka
+
+	* tests/test_dbi.c (1.35): added timezone tests
+
+2006-05-15 23:06  mhoenicka
+
+	* drivers/pgsql/: dbd_pgsql.c (1.49), dbd_pgsql.h (1.4): fixed
+	  timezone column type handling
+
+2006-05-15 06:19  qu1j0t3
+
+	* drivers/mysql/dbd_mysql.c (1.87): add support for MySQL 5.0.3's
+	  BIT (unsigned 64 bit vector) and NEWDECIMAL (arbitrary precision
+	  decimal string) types
+
+2006-05-14 04:11  qu1j0t3
+
+	* drivers/mysql/: AUTHORS (1.2), README (1.2), dbd_mysql.c (1.86):
+	  Fix string/binary test for VAR_STRING, STRING and BLOB/TEXT
+	  types. Add some feature support clarifications to README.
+
+2006-05-14 04:01  qu1j0t3
+
+	* acinclude.m4 (1.19): improve formatting of --help option text
+
+2006-02-11 01:34  mhoenicka
+
+	* drivers/: freetds/Makefile.am (1.4), msql/Makefile.am (1.12),
+	  mysql/Makefile.am (1.15), oracle/Makefile.am (1.6),
+	  pgsql/Makefile.am (1.15), sqlite/Makefile.am (1.13),
+	  sqlite3/Makefile.am (1.6): delete PDF by maintainer-clean
+
+2005-11-21 22:18  mhoenicka
+
+	* Makefile.w32 (1.8): renamed driver libraries
+
+2005-11-08 21:06  mhoenicka
+
+	* drivers/oracle/: AUTHORS (1.4), dbd_oracle.c (1.20): Ashishs Nov
+	  8 patch kit
+
+2005-10-26 20:40  mhoenicka
+
+	* doc/include/Makefile.am (1.1): initial version
+
+2005-10-26 20:40  mhoenicka
+
+	* doc/Makefile.am (1.4): removed old doc junk; now passes only
+	  through to include subdir
+
+2005-10-26 20:39  mhoenicka
+
+	* Makefile.am (1.7), configure.in (1.31): added doc and doc/include
+	  to the distributed files
+
+2005-09-28 21:55  mhoenicka
+
+	* tests/test_dbi.c (1.34): added empty string and NULL string tests
+
+2005-09-27 20:42  mhoenicka
+
+	* drivers/oracle/dbd_oracle.c (1.19): Ashish's return value fixes
+
+2005-09-25 23:56  mhoenicka
+
+	* drivers/: firebird/Makefile.am (1.4), freetds/Makefile.am (1.3),
+	  msql/Makefile.am (1.11), mysql/Makefile.am (1.14),
+	  oracle/Makefile.am (1.5), pgsql/Makefile.am (1.14),
+	  sqlite/Makefile.am (1.12), sqlite3/Makefile.am (1.5): changed
+	  driver lib names from libname to libdbdname
+
