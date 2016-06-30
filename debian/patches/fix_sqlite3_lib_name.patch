@@ -1,0 +1,15 @@
+Description: Fix sqlite3 lib name
+Author: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Forwarded: not-needed
+
+--- libdbi-drivers-0.9.0.orig/acinclude.m4
++++ libdbi-drivers-0.9.0/acinclude.m4
+@@ -310,7 +310,7 @@ if test "$ac_sqlite3" = "yes"; then
+ 		AC_SEARCH_LIBS_VAR([sqlite3_exec], sqlite3, , , , SQLITE3_LIBS)
+ 		SQLITE3_LDFLAGS=""
+ 	else
+-		SQLITE3_LIBS=-lsqlite
++		SQLITE3_LIBS=-lsqlite3
+ 		SQLITE3_LDFLAGS=-L$ac_sqlite3_libdir
+ 	fi
+ 

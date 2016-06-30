@@ -1,0 +1,5 @@
+#001-test-dbi.c.patch
+mysql_h_path.patch
+fix_sqlite3_lib_name.patch
+disable_some_tests_for_sqlite3.patch
+fix_ftbfs_on_hurd.patch

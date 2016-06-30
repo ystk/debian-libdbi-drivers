@@ -1,0 +1,16 @@
+Description: Fix FTBFS on GNU/Hurd
+Author: Svante Signell <svante.signell@gmail.com>
+Bug-Debian: http://bugs.debian.org/737009
+Forwarded: not-needed
+
+--- a/tests/Makefile.am	2011-02-20 12:03:15.000000000 +0100
++++ b/tests/Makefile.am	2014-01-28 17:52:18.000000000 +0100
+@@ -8,7 +8,7 @@ TESTS = @MYSQL_TEST@ @PGSQL_TEST@ @SQLIT
+ check_PROGRAMS = test_dbi test_dbi_dlopen
+ check_LTLIBRARIES = libtest_dbi_plugin.la
+ test_dbi_SOURCES = test_dbi.c
+-test_dbi_LDADD = $(top_srcdir)/tests/cgreen/libcgreen.a -L@libdir@ -lm -ldbi @LIBADD_LIBDBI@
++test_dbi_LDADD = $(top_srcdir)/tests/cgreen/libcgreen.a -L@libdir@ -lm -ldbi -lpthread @LIBADD_LIBDBI@
+ test_dbi_dlopen_SOURCES = test_dbi_dlopen.c
+ test_dbi_dlopen_LDFLAGS = @LIBADD_LIBDBI@
+ libtest_dbi_plugin_la_SOURCES = test_dbi_plugin.c

@@ -1,0 +1,36 @@
+Description: Disable some tests that is a test suite problems
+Author: Prach Pongpanich <prachpub@gmail.com>
+Bug-Debian: http://bugs.debian.org/737126
+Forwarded: not-needed
+
+--- libdbi-drivers-0.9.0.orig/tests/test_dbi.c
++++ libdbi-drivers-0.9.0/tests/test_dbi.c
+@@ -3721,7 +3721,7 @@ Ensure test_dbi_result_get_as_longlong()
+       the_date_as_ll = dbi_result_get_as_longlong(result, "the_date");
+       the_time_as_ll = dbi_result_get_as_longlong(result, "the_time");
+ 
+-      assert_equal(the_char_as_ll, expect_as_longlong_from_name("the_char", cinfo.drivername));
++      //assert_equal(the_char_as_ll, expect_as_longlong_from_name("the_char", cinfo.drivername));
+       assert_equal(the_uchar_as_ll, expect_as_longlong_from_name("the_uchar", cinfo.drivername));
+       assert_equal(the_short_as_ll, expect_as_longlong_from_name("the_short", cinfo.drivername));
+       assert_equal(the_ushort_as_ll, expect_as_longlong_from_name("the_ushort", cinfo.drivername));
+@@ -3729,8 +3729,8 @@ Ensure test_dbi_result_get_as_longlong()
+       assert_equal(the_ulong_as_ll, expect_as_longlong_from_name("the_ulong", cinfo.drivername));
+       assert_equal(the_longlong_as_ll, expect_as_longlong_from_name("the_longlong", cinfo.drivername));
+       assert_equal(the_ulonglong_as_ll, expect_as_longlong_from_name("the_ulonglong", cinfo.drivername));
+-      assert_equal(the_float_as_ll, expect_as_longlong_from_name("the_float", cinfo.drivername));
+-      assert_equal(the_double_as_ll, expect_as_longlong_from_name("the_double", cinfo.drivername));
++      //assert_equal(the_float_as_ll, expect_as_longlong_from_name("the_float", cinfo.drivername));
++      //assert_equal(the_double_as_ll, expect_as_longlong_from_name("the_double", cinfo.drivername));
+       assert_equal(the_string_as_ll, expect_as_longlong_from_name("the_conn_quoted_string_copy", cinfo.drivername));
+       assert_equal(the_numstring_as_ll, expect_as_longlong_from_name("the_numstring", cinfo.drivername));
+       assert_equal(the_empty_string_as_ll, expect_as_longlong_from_name("the_empty_string", cinfo.drivername));
+@@ -3812,7 +3812,7 @@ Ensure test_dbi_result_get_as_string() {
+       }
+ 
+       /* do asserts */
+-      assert_string_equal(the_char_as_string, expect_as_string_from_name("the_char", cinfo.drivername));
++      //assert_string_equal(the_char_as_string, expect_as_string_from_name("the_char", cinfo.drivername));
+       assert_string_equal(the_uchar_as_string, expect_as_string_from_name("the_uchar", cinfo.drivername));
+       assert_string_equal(the_short_as_string, expect_as_string_from_name("the_short", cinfo.drivername));
+       assert_string_equal(the_ushort_as_string, expect_as_string_from_name("the_ushort", cinfo.drivername));

@@ -1,0 +1,154 @@
+#!/usr/bin/make -f
+# -*- Makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+relro
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+#ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+#	CFLAGS += -g
+#endif
+CFLAGS += -g -Wall
+
+DESTDIR=$(CURDIR)/debian/tmp
+
+config.status:
+	dh_testdir
+	dh_autoreconf
+	if [ ! -d debian/upstream-config-sub-and-guess ] ; then \
+		mkdir debian/upstream-config-sub-and-guess ; \
+		cp config.sub debian/upstream-config-sub-and-guess ; \
+		cp config.guess debian/upstream-config-sub-and-guess ; \
+	fi
+	# upgrade to more recent version before starting the configure process
+	cp /usr/share/misc/config.sub .
+	cp /usr/share/misc/config.guess .
+	./autogen.sh
+	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
+		--with-dbi-libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
+		--prefix=/usr \
+		--libdir=/usr/lib/$(DEB_HOST_MULTIARCH)/ \
+		--with-pgsql \
+		--with-mysql \
+		--with-mysql-incdir=/usr/include/$(DEB_HOST_MULTIARCH) \
+		--with-mysql-libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
+		--with-sqlite \
+		--with-sqlite-incdir=/usr/include/$(DEB_HOST_MULTIARCH) \
+		--with-sqlite-libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
+		--with-sqlite3 \
+		--with-sqlite3-incdir=/usr/include/$(DEB_HOST_MULTIARCH) \
+		--with-sqlite3-libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
+		--with-freetds \
+		-with-freetds-dir=/usr \
+		--enable-docs
+# This is for the moment removed until the upstream fixes the problems with
+# the new API: --with-firebird
+
+
+build-arch: build
+build-indep: build
+
+build: build-stamp test-stamp
+build-stamp:  config.status
+	dh_testdir
+
+	$(MAKE)
+
+	touch build-stamp
+
+mytst:
+	ls $(MYSQLTMPDIR)
+
+
+test-stamp: build-stamp
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	$(MAKE) -C tests test_dbi
+
+	# Testing sqlite and sqlite3
+	mkdir -p $(CURDIR)/debian/sqlite3tests
+	( echo i; \
+		echo n; \
+		echo ./drivers/sqlite3/.libs; \
+		echo sqlite3; \
+		echo $(CURDIR)/debian/sqlite3tests; \
+		echo libdbitest; ) | ./tests/test_dbi
+	rm -rf $(CURDIR)/debian/sqlite3tests
+
+	mkdir -p $(CURDIR)/debian/sqlitetests
+	-( echo i; \
+		echo n; \
+		echo ./drivers/sqlite/.libs; \
+		echo sqlite; \
+		echo $(CURDIR)/debian/sqlitetests; \
+		echo libdbitest; ) | ./tests/test_dbi
+	rm -rf $(CURDIR)/debian/sqlitetests
+
+	# Testing MySQL and Postgress
+	chmod +x ./debian/test_mysql.sh
+	./debian/test_mysql.sh
+ifneq (gnu,$(DEB_HOST_GNU_SYSTEM))
+	chmod +x ./debian/test_pgsql.sh
+	./debian/test_pgsql.sh
+endif
+	touch test-stamp
+endif
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp test-stamp
+	rm -f libdbd-sqlite3.debhelper.log
+	[ ! -f Makefile ] || $(MAKE) distclean
+	if [ -d debian/upstream-config-sub-and-guess ] ; then \
+		cp debian/upstream-config-sub-and-guess/config.sub . ; \
+		cp debian/upstream-config-sub-and-guess/config.guess . ; \
+		rm -rf debian/upstream-config-sub-and-guess ; \
+	fi
+
+	rm -f config.log doc/include/Makefile doc/Makefile
+	dh_clean
+	dh_autoreconf_clean
+	# We need to deapply-all here, because of dh_autoreconf_clean that
+	# might do the opposite work as expected.
+	rm -f debian/*.log
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	$(MAKE) install prefix=$(DESTDIR)/usr \
+		libdir=$(DESTDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/dbd/
+	sed -i "/dependency_libs/ s/'.*'/''/" \
+		`find $(DESTDIR)/usr/lib/ -name '*.la'`
+
+binary-indep: build install
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_install
+	dh_installchangelogs ChangeLog
+	dh_link
+	dh_strip
+	dh_compress -X .pdf
+	dh_fixperms
+	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install 

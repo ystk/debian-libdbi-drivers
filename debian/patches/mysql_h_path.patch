@@ -1,0 +1,15 @@
+Description: Fix mysql header path
+Forwarded: not-needed
+Author: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+
+--- libdbi-drivers-0.9.0.orig/drivers/mysql/dbd_mysql.c
++++ libdbi-drivers-0.9.0/drivers/mysql/dbd_mysql.c
+@@ -51,7 +51,7 @@ long long strtoll(const char *nptr, char
+ #include <dbi/dbi-dev.h>
+ #include <dbi/dbd.h>
+ 
+-#include <mysql.h>
++#include <mysql/mysql.h>
+ #include "dbd_mysql.h"
+ 
+ static const dbi_info_t driver_info = {

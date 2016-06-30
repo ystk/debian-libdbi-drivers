@@ -1,0 +1,14 @@
+Document: libdbd-mysql
+Title: MySQL driver for libdbi Documentation
+Author: David Parker
+Abstract: Documentation for the libdbi MySQL driver.
+ Written for developers using the MySQL database driver in their libdbi
+ application.
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/libdbd-mysql/dbd_mysql/index.html
+Files: /usr/share/doc/libdbd-mysql/dbd_mysql/*.html
+
+Format: PDF
+Files: /usr/share/doc/libdbd-mysql/dbd_mysql.pdf

@@ -1,0 +1,28 @@
+From: Thomas Goirand <zigo@debian.org>
+Subject: This patch removes some tests in the libdbi-drivers when
+ using ISO8859 encoding, as this test is problematic in Debian
+
+--- libdbi-drivers-0.8.3-1.orig/tests/test_dbi.c	2008-02-07 00:22:44.000000000 +0800
++++ libdbi-drivers-0.8.3-1/tests/test_dbi.c	2010-08-16 15:16:10.000000000 +0800
+@@ -305,6 +305,11 @@
+     conn = NULL;
+ 
+     /* repeat test for latin1 encoding */
++    if (!strcmp(cinfo.drivername, "pgsql")) {
++      printf("pgsql cannot handle ISO-8859-1 tests because of hard initdb requirements. Skipping.\n");
++      goto SUCCESS;
++    }
++
+     printf("\nNow repeat this test with a ISO-8859-1 encoding\n");
+     if ((conn = dbi_conn_new(cinfo.drivername)) == NULL) {
+       printf("Can't instantiate '%s' driver into a dbi_conn!\n", cinfo.drivername);
+@@ -429,7 +434,8 @@
+       exit(1);
+     }
+   }
+-	
++
++SUCCESS:	
+   printf("\n\n");
+   printf("SUCCESS! All done, disconnecting and shutting down libdbi. Have a nice day.\n\n");
+ 	

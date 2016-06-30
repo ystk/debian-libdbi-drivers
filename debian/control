@@ -1,0 +1,83 @@
+Source: libdbi-drivers
+Section: libs
+Priority: optional
+Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Uploaders: Prach Pongpanich <prachpub@gmail.com>
+Build-Depends: automake,
+               autotools-dev,
+               debhelper (>= 9),
+               dh-autoreconf,
+               docbook-dsssl,
+               freetds-dev,
+               libdbi-dev (>= 0.9.0),
+               libmysqlclient-dev (>= 5.5),
+               libpq-dev (>= 8.3~rc2-1+b1),
+               libsqlite0-dev,
+               libsqlite3-dev,
+               libtool,
+               locales-all | language-pack-en,
+               mysql-client (>= 5.5),
+               mysql-server (>= 5.5),
+               openjade,
+               postgresql,
+               postgresql-client
+Standards-Version: 3.9.5
+Vcs-Git: git://anonscm.debian.org/collab-maint/libdbi-drivers.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libdbi-drivers.git
+Homepage: http://libdbi.sourceforge.net/
+
+Package: libdbd-sqlite
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: SQLite database driver for libdbi
+ This driver provides support for serverless SQLite databases through the
+ libdbi Database Independent Abstraction Layer. Switching a program's driver
+ does not require recompilation or rewriting source code.
+
+Package: libdbd-sqlite3
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: SQLite3 database driver for libdbi
+ This driver provides support for serverless SQLite3 databases through the
+ libdbi Database Independent Abstraction Layer. Switching a program's driver
+ does not require recompilation or rewriting source code.
+
+Package: libdbd-mysql
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: MySQL database server driver for libdbi
+ This driver provides connectivity to MySQL database servers through the
+ libdbi Database Independent Abstraction Layer. Switching a program's driver
+ does not require recompilation or rewriting source code.
+
+Package: libdbd-pgsql
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: PostgreSQL database server driver for libdbi
+ This driver provides connectivity to PostgreSQL database servers through the
+ libdbi Database Independent Abstraction Layer. Switching a program's driver
+ does not require recompilation or rewriting source code.
+
+Package: libdbd-freetds
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: Freetds database server driver for libdbi
+ This driver provides connectivity to MS SQL Server or Sybase database
+ servers through the libdbi Database Independent Abstraction Layer using
+ Freetds. Switching a program's driver does not require recompilation or
+ rewriting source code.
